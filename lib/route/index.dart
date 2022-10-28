@@ -27,21 +27,21 @@ class IndexPageState extends State<StatefulWidget> {
     // setState(() {
     //   tasks.add(newTask);
     // });
-    context().read<TaskModel>().add(newTask);
+    context.read<TaskModel>().add(newTask);
   }
 
   removeTask(int index) {
     // setState(() {
     //   tasks.removeAt(index);
     // });
-    context().read<TaskModel>().removeAt(index);
+    context.read<TaskModel>().removeAt(index);
   }
 
   updateTask(int index, bool val) {
     // setState(() {
     //   tasks[index].isDone = val;
     // });
-    context().read<TaskModel>().setTaskDone(index, val);
+    context.read<TaskModel>().setTaskDone(index, val);
   }
 
   hideTaskDone() {
@@ -51,7 +51,7 @@ class IndexPageState extends State<StatefulWidget> {
     //     return e;
     //   }).toList();
     // });
-    context().read<TaskModel>().filterTask("hide-done");
+    context.read<TaskModel>().filterTask("hide-done");
   }
 
   showAll() {
@@ -61,7 +61,7 @@ class IndexPageState extends State<StatefulWidget> {
     //     return e;
     //   }).toList();
     // });
-    context().read<TaskModel>().filterTask("show-all");
+    context.read<TaskModel>().filterTask("show-all");
   }
 
   @override
