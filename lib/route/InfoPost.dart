@@ -4,5 +4,4 @@ class InfoPost {
   final String HeadingPost;
   final String DateTimeUpdate;
   final String ImagePost;
-
 }

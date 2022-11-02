@@ -1,4 +1,5 @@
 
+import 'package:app/route/PostPage.dart';
 import 'package:flutter/material.dart';
 
 import 'InfoPost.dart';
@@ -9,6 +10,11 @@ class Home extends StatefulWidget{
 }
 
 class _HomeState extends State<Home> {
+  Color text_word=Color.fromRGBO(168, 179,207, 1);
+  Color BackGround=Color.fromRGBO(0, 0,0,0.9);
+  Color BoderColor=Color.fromRGBO(28,31,38,1);
+
+  TextEditingController heading_cotroller=TextEditingController();
   List post=[
     InfoPost(LinkofUser: "LinkofUser", HeadingPost: "Heading Post A", DateTimeUpdate: "Date Time Update A",
         ImagePost: "https://images3.alphacoders.com/100/thumbbig-1003152.webp"),
@@ -26,10 +32,10 @@ class _HomeState extends State<Home> {
           width: double.maxFinite,
           height: 360,
           decoration: BoxDecoration(
-            color: Colors.cyanAccent,
+            color: Colors.black38,
             border: Border.all(
               width: 3,
-              color: Colors.white54
+              color: BoderColor
             ),
             borderRadius: BorderRadius.all(
               Radius.circular(20)
@@ -63,17 +69,18 @@ class _HomeState extends State<Home> {
                   ],
 
                 ),
-                trailing: IconButton(icon: Icon(Icons.more_vert),onPressed:()=> null,),
+                trailing: IconButton(icon: Icon(Icons.more_vert,color: text_word,),onPressed:()=> null,),
                 
               ),
-              Text(post.HeadingPost,style: TextStyle(fontSize: 30),textAlign: TextAlign.left,),
+              Text(post.HeadingPost,maxLines: 3,style: TextStyle(fontSize: 30,color: Colors.white),textAlign: TextAlign.left,),
               SizedBox(
                 height: 20,
               ),
-              Text(post.DateTimeUpdate,style: TextStyle(fontSize: 15),),
+              Text(post.DateTimeUpdate,style: TextStyle(fontSize: 15,color: text_word),),
 
               InkWell(
                 child: Container(
+
                   height: 150,
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -85,7 +92,7 @@ class _HomeState extends State<Home> {
                     )
                   ),
                 ),
-                onTap: ()=>null,
+                onTap: ()=>PostPagetonextScreen(context,post),
               ),
 
               Padding(
@@ -93,9 +100,9 @@ class _HomeState extends State<Home> {
                 child: Row(
                   mainAxisAlignment:MainAxisAlignment.spaceBetween ,
                   children: [
-                    IconButton(icon: Icon(Icons.arrow_upward),onPressed: ()=>null,),
-                    IconButton(icon: Icon(Icons.comment),onPressed: ()=>null,),
-                    IconButton(icon:  Icon(Icons.share),onPressed: ()=>null,),
+                    IconButton(icon: Icon(Icons.arrow_upward,color: text_word,),onPressed: ()=>null,),
+                    IconButton(icon: Icon(Icons.comment,color: text_word,),onPressed: ()=>null,),
+                    IconButton(icon:  Icon(Icons.share,color: text_word),onPressed: ()=>null,),
                   ],
                 ),
               )
@@ -113,10 +120,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BackGround,
       appBar: AppBar(
-        title: Center(child: Text("Home",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),),
+        title: Center(child: Text("Home",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: text_word),),),
+        backgroundColor:BackGround,
+          shape: Border(
+              bottom: BorderSide(
+                  color: BoderColor,
+                  width: 4,
+              )
+          ),
+          elevation: 4,
       ),
       drawer: Drawer(
+        backgroundColor: BackGround,
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
@@ -129,6 +146,7 @@ class _HomeState extends State<Home> {
                     fit: BoxFit.cover,
                     width: 90,
                     height: 90,
+
                   ),
                 ),
               ),
@@ -141,33 +159,33 @@ class _HomeState extends State<Home> {
               ),
             ),
             ListTile(
-              title: const Text("Popular"),
-              leading: const Icon(Icons.local_fire_department),
+              title:  Text("Popular",style: TextStyle(color:text_word,)),
+              leading:  Icon(Icons.local_fire_department,color:text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Most upvoted"),
-              leading: const Icon(Icons.file_upload_rounded),
+              title:  Text("Most upvoted",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.file_upload_rounded,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Best discussions"),
-              leading: const Icon(Icons.chat),
+              title:  Text("Best discussions",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.chat,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Submit article"),
-              leading: const Icon(Icons.insert_link_outlined),
+              title:  Text("Submit article",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.insert_link_outlined,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Reading historry"),
-              leading: const Icon(Icons.remove_red_eye_outlined),
+              title: Text("Reading historry",style: TextStyle(color:text_word,)),
+              leading:  Icon(Icons.remove_red_eye_outlined,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Customize"),
-              leading: const Icon(Icons.settings),
+              title: Text("Customize",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.settings,color: text_word,),
               onTap: ()=> null,
             ),
             SizedBox(
@@ -175,23 +193,23 @@ class _HomeState extends State<Home> {
             ),
 
             ListTile(
-              title: const Text("Docs"),
-              leading: const Icon(Icons.text_snippet),
+              title:  Text("Docs",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.text_snippet,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Changelog"),
-              leading: const Icon(Icons.price_change),
+              title:  Text("Changelog",style: TextStyle(color:text_word,)),
+              leading: Icon(Icons.price_change,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("Feedback"),
-              leading: const Icon(Icons.feedback),
+              title:  Text("Feedback",style: TextStyle(color: text_word,)),
+              leading:  Icon(Icons.feedback,color: text_word,),
               onTap: ()=> null,
             ),
             ListTile(
-              title: const Text("invite people"),
-              leading: const Icon(Icons.people),
+              title:  Text("invite people",style: TextStyle(color: text_word,)),
+              leading: Icon(Icons.people,color: text_word,),
               onTap: ()=> null,
             ),
           ],
@@ -204,6 +222,18 @@ class _HomeState extends State<Home> {
             for(var i=0;i<3;i++) Post(post[i]),
           ],
         ),
+      ),
+    );
+  }
+  void PostPagetonextScreen(BuildContext context,InfoPost post){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context)=>PostPage(
+        LinkofUser: post.LinkofUser,
+        ImagePost: post.ImagePost,
+        DateTimeUpdate: post.DateTimeUpdate,
+        HeadingPost: post.HeadingPost,
+      ),
       ),
     );
   }
