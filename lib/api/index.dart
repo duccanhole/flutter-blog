@@ -1,0 +1,1 @@
+const String rootUrl = 'https://nestjs-blog-production.up.railway.app/';
