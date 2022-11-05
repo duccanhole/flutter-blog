@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-import '../interface/User.dart';
+import 'package:app/api/User/index.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import '../interface/User.interface.dart';
 
 class RegisterPage extends StatefulWidget{
   @override
@@ -14,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
    String errorTextUsername='';
    String errorTextPassword='';
    String errorTextRe_password='';
+   bool loading=false;
    void checkUsername( String s){
      if(s.isEmpty)  errorTextUsername="Invalid or empty username.";
      else{
@@ -29,6 +34,25 @@ class _RegisterPageState extends State<RegisterPage> {
        if(s.length<8||s.length>16) errorTextPassword="Your password must be between 8-16 characters";
        else{
          errorTextPassword='';
+       }
+     }
+   }
+   void RegisterUser() async{
+     if(errorTextUsername=='' && errorTextPassword==''&&errorTextRe_password==''){
+       setState(() {
+         loading = true;
+       });
+       Response res = await UserApi().register(username_controller.text, password_controller.text);
+       setState(() {
+         loading = false;
+       });
+       if(res.statusCode==200){
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success!!!")));
+         Navigator.pop(context);
+       }
+       else {
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error to register")));
+         RegisterPage();
        }
      }
    }
@@ -122,12 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 50,
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: ()=>{
-                    if(errorTextUsername=='' && errorTextPassword==''&&errorTextRe_password=='')
-                      {
-                        Navigator.pop(context)
-                      }
-                  },
+                  onPressed: loading? null: RegisterUser,
                   child:Text("Register Now"),
                 ),
               ),

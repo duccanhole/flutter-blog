@@ -20,6 +20,6 @@ class IPost {
         url: res['url'],
         view: res['view'],
         tags: res['tags'],
-        createdAt: res['createdAt']);
+        createdAt: DateTime.parse(res['createdAt']));
   }
 }

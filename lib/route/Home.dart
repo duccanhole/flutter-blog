@@ -20,18 +20,14 @@ class _HomeState extends State<Home> {
   Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
 
   TextEditingController headingCotroller = TextEditingController();
-  List<IPost> posts = [
-    IPost(
-        title: "test1",
-        url: "",
-        view: 0,
-        tags: "#funny",
-        createdAt: DateTime.now())
-  ];
+  late Future<List<IPost>> posts;
   @override
-  void initState()  {
+  void initState() {
     // TODO: implement initState
-    super.initState();}
+    super.initState();
+    posts = PostApi().getList(QuerySearch());
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +55,18 @@ class _HomeState extends State<Home> {
       ),
       body: Padding(
         padding: EdgeInsets.all(30),
-        child: ListView(
-          children: posts.map((e) => PossItem(post: e)).toList(),
-        ),
+        child: FutureBuilder<List<IPost>>(
+            future: posts,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return PostItem(post: snapshot.data![index]);
+                    });
+              }
+              return const CircularProgressIndicator();
+            }),
       ),
     );
   }

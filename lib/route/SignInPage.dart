@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'Home.dart';
 import 'RegisterPage.dart';
-import '../interface/User.dart';
+import '../interface/User.interface.dart';
 
 class SignInPage extends StatefulWidget{
   const SignInPage({super.key});
