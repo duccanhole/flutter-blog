@@ -1,15 +1,18 @@
-
+import 'package:app/interface/Post.interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PossItem extends StatelessWidget {
-  
   Color textWord = const Color.fromRGBO(168, 179, 207, 1);
   Color backGround = const Color.fromRGBO(0, 0, 0, 0.9);
   Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
 
+  String formatDate(DateTime date) {
+    return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
+  }
+
   PossItem({super.key, required this.post});
-  var post;
+  IPost post;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -53,14 +56,14 @@ class PossItem extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   icon: Icon(
-                    Icons.more_vert,
+                    Icons.save_alt_outlined,
                     color: textWord,
                   ),
                   onPressed: () => null,
                 ),
               ),
               Text(
-                post.HeadingPost,
+                post.title,
                 maxLines: 3,
                 style: TextStyle(fontSize: 30, color: Colors.white),
                 textAlign: TextAlign.left,
@@ -69,7 +72,7 @@ class PossItem extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                post.DateTimeUpdate,
+                "created at: ${formatDate(post.createdAt)}",
                 style: TextStyle(fontSize: 15, color: textWord),
               ),
               InkWell(
@@ -77,11 +80,12 @@ class PossItem extends StatelessWidget {
                   height: 150,
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 3),
-                      borderRadius: BorderRadius.all(Radius.circular(25)),
-                      image: DecorationImage(
-                          image: NetworkImage(post.ImagePost),
-                          fit: BoxFit.cover)),
+                    border: Border.all(color: Colors.grey, width: 3),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    // image: DecorationImage(
+                    //     image: NetworkImage(post.ImagePost),
+                    //     fit: BoxFit.cover)
+                  ),
                 ),
                 onTap: () => null,
               ),
@@ -92,22 +96,13 @@ class PossItem extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: Icon(
-                        Icons.arrow_upward,
+                        Icons.remove_red_eye,
                         color: textWord,
                       ),
                       onPressed: () => null,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.comment,
-                        color: textWord,
-                      ),
-                      onPressed: () => null,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.share, color: textWord),
-                      onPressed: () => null,
-                    ),
+                    Text(post.view.toString(),
+                        style: TextStyle(color: Colors.white))
                   ],
                 ),
               )
@@ -120,5 +115,4 @@ class PossItem extends StatelessWidget {
       ],
     );
   }
-
 }

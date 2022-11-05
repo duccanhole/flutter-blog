@@ -9,7 +9,7 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'To-do list app',
-      theme: ThemeData(primaryColor: Colors.pink, primarySwatch: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.pink, primarySwatch: Colors.blue, backgroundColor: const Color.fromRGBO(0, 0, 0, 0.9)),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const IndexPage(),
