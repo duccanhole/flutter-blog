@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'Home.dart';
 import 'RegisterPage.dart';
-import 'User.dart';
+import '../interface/User.dart';
 
 class SignInPage extends StatefulWidget{
   const SignInPage({super.key});
@@ -18,6 +20,8 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController Password=TextEditingController();
 
   bool _isVisible=false;
+
+
   void updateStatus(){
     setState(() {
       _isVisible=!_isVisible;
@@ -33,10 +37,8 @@ class _SignInPageState extends State<SignInPage> {
       }
     }
     //code check user from sever
-    User user= new User(Username: "abcdef", Password: "123456789");
 
-  }
-  @override
+  } @override
   Widget build(BuildContext context) {
    return  Scaffold(
 

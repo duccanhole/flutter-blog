@@ -29,11 +29,9 @@ class _HomeState extends State<Home> {
         createdAt: DateTime.now())
   ];
   @override
-  void initState() async {
+  void initState()  {
     // TODO: implement initState
-    super.initState();
-    await new PostApi().getList(new QuerySearch());
-  }
+    super.initState();}
 
   @override
   Widget build(BuildContext context) {

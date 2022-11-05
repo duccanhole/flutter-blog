@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'User.dart';
+import '../interface/User.dart';
 
 class RegisterPage extends StatefulWidget{
   @override
@@ -125,7 +125,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: ()=>{
                     if(errorTextUsername=='' && errorTextPassword==''&&errorTextRe_password=='')
                       {
-                        new User(Username: username_controller.text, Password: password_controller.text),
                         Navigator.pop(context)
                       }
                   },

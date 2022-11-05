@@ -1,0 +1,13 @@
+class User{
+  final String name;
+  final String password;
+  User(this.name, this.password);
+  User.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        password = json['password'];
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'password': password,
+  };
+}
