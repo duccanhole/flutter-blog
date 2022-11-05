@@ -2,7 +2,7 @@ import 'package:app/interface/Post.interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PossItem extends StatelessWidget {
+class PostItem extends StatelessWidget {
   Color textWord = const Color.fromRGBO(168, 179, 207, 1);
   Color backGround = const Color.fromRGBO(0, 0, 0, 0.9);
   Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
@@ -11,7 +11,7 @@ class PossItem extends StatelessWidget {
     return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
   }
 
-  PossItem({super.key, required this.post});
+  PostItem({super.key, required this.post});
   IPost post;
   @override
   Widget build(BuildContext context) {
