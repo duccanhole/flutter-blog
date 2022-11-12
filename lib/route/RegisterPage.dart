@@ -47,11 +47,11 @@ class _RegisterPageState extends State<RegisterPage> {
          loading = false;
        });
        if(res.statusCode==200){
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success!!!")));
-         Navigator.pop(context);
+         ScaffoldMessenger.of(context()).showSnackBar(SnackBar(content: Text("Success!!!")));
+         Navigator.pop(context());
        }
        else {
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error to register")));
+         ScaffoldMessenger.of(context()).showSnackBar(SnackBar(content: Text("Error to register")));
          RegisterPage();
        }
      }
