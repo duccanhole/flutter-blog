@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Nav {
   String? text;
@@ -9,51 +9,112 @@ class Nav {
 }
 
 class ListDrawer extends StatefulWidget {
+  const ListDrawer({super.key, required this.onNavAction});
+  final Function onNavAction;
+
   @override
-  State<StatefulWidget> createState() => ListDrawerSate();
+  State<ListDrawer> createState() => ListDrawerSate();
 }
 
 class ListDrawerSate extends State<ListDrawer> {
   Color textWord = const Color.fromRGBO(168, 179, 207, 1);
-  List<Nav> navigators = [Nav(text: "Post saved", icon: Icons.mark_as_unread), Nav(text: "Post posted", icon: Icons.file_upload)];
+  late Future<String> userName;
+  late Future<String> token;
+  List<Nav> navigators = [
+    Nav(text: "Post saved", icon: Icons.mark_as_unread),
+    Nav(text: "Post posted", icon: Icons.file_upload)
+  ];
+
+  get builder => null;
+  Future<String> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("userName") ?? "guest";
+  }
+
+  Future<String> getUserToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("token") ?? "";
+  }
+
+  String getCharFromName(String name) {
+    List<String> nameArr = name.split(" ");
+    String lastName = nameArr[nameArr.length - 1];
+    return lastName[0];
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userName = getUserName();
+    token = getUserToken();
+    token.then((value) => {
+          if (value == '')
+            {
+              setState(() {
+                navigators.add(Nav(text: 'Sign in', icon: Icons.login));
+              })
+            }
+          else
+            {
+              setState(() {
+                navigators.add(Nav(text: 'Sign out', icon: Icons.logout));
+              })
+            }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListView(
       children: [
         UserAccountsDrawerHeader(
-          accountName: const Text("DUC-Sama"),
-          accountEmail: const Text("lexuanduc147@gmail.com"),
+          accountName: FutureBuilder(
+            future: userName,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.toString());
+              }
+              return const Text("loading ...");
+            },
+          ),
+          accountEmail: null,
           currentAccountPicture: CircleAvatar(
-            child: ClipOval(
-              child: Image.network(
-                "https://i.pinimg.com/564x/c7/3a/bd/c73abd9401a025ecc067cbda14baee6f.jpg",
-                fit: BoxFit.cover,
-                width: 90,
-                height: 90,
+            child: CircleAvatar(
+              backgroundColor: Colors.blueGrey,
+              radius: 90,
+              child: FutureBuilder(
+                future: userName,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(getCharFromName(snapshot.data.toString()),
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold));
+                  }
+                  return const Text("...",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold));
+                }),
               ),
             ),
           ),
-          decoration: const BoxDecoration(
-              color: Colors.pinkAccent,
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      "https://media.muanhatructuyen.vn/post/221/3/hinh-nen-may-trang-sao-ngo-nghinh.jpg"))),
         ),
-        ...navigators.map(
-          (e) => ListTile(
-            title: Text(e.text ?? "",
-                style: TextStyle(
+        ...navigators
+            .map(
+              (e) => ListTile(
+                title: Text(e.text ?? "",
+                    style: TextStyle(
+                      color: textWord,
+                    )),
+                leading: Icon(
+                  e.icon,
                   color: textWord,
-                )),
-            leading: Icon(
-              e.icon,
-              color: textWord,
-            ),
-            onTap: () => null,
-          ),
-        ).toList()
+                ),
+                onTap: widget.onNavAction(e.text)
+              ),
+            )
+            .toList()
       ],
     );
   }
