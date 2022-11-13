@@ -47,14 +47,30 @@ class ControllViewState extends State<ControllView> {
     switch (data) {
       case 'Sign in':
       case 'Sign out':
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString("token", "");
-        prefs.setString("userName", "guest");
-        Navigator.of(context())
-            .push(MaterialPageRoute(builder: (context) => const SignInPage()));
+        logOut();
+        break;
+      case 'Create post':
+        createPost();
         break;
       default:
     }
+  }
+
+  createPost() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? "";
+    if (token == "") {
+      ScaffoldMessenger.of(context())
+          .showSnackBar(const SnackBar(content: Text("Please login !!!")));
+    }
+  }
+
+  logOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("token", "");
+    prefs.setString("userName", "guest");
+    Navigator.of(context())
+        .push(MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 
   @override
@@ -76,7 +92,7 @@ class ControllViewState extends State<ControllView> {
       ),
       body: IndexedStack(
         index: currIndex,
-        children: const [Home(), Text("test")],
+        children: const [Home()],
       ),
     );
   }

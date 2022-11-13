@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:app/api/user/index.dart';
 import 'package:app/route/index.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
