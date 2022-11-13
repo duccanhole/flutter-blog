@@ -38,7 +38,13 @@ class ListDrawerSate extends State<ListDrawer> {
 
   String getCharFromName(String name) {
     List<String> nameArr = name.split(" ");
+    if (nameArr.isEmpty) {
+      return "G";
+    }
     String lastName = nameArr[nameArr.length - 1];
+    if (lastName.isEmpty) {
+      return "G";
+    }
     return lastName[0];
   }
 
@@ -103,16 +109,17 @@ class ListDrawerSate extends State<ListDrawer> {
         ...navigators
             .map(
               (e) => ListTile(
-                title: Text(e.text ?? "",
-                    style: TextStyle(
-                      color: textWord,
-                    )),
-                leading: Icon(
-                  e.icon,
-                  color: textWord,
-                ),
-                onTap: widget.onNavAction(e.text)
-              ),
+                  title: Text(e.text ?? "",
+                      style: TextStyle(
+                        color: textWord,
+                      )),
+                  leading: Icon(
+                    e.icon,
+                    color: textWord,
+                  ),
+                  onTap: (() {
+                    widget.onNavAction(e.text);
+                  })),
             )
             .toList()
       ],

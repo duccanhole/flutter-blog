@@ -20,40 +20,13 @@ class PostItem extends StatelessWidget {
       children: [
         Container(
           width: double.maxFinite,
-          height: 360,
           decoration: BoxDecoration(
               color: Colors.black38,
               border: Border.all(width: 3, color: boderColor),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           child: Column(
             children: [
               ListTile(
-                leading: CircleAvatar(
-                  child: ClipOval(
-                    child: Image.network(
-                      "https://i.pinimg.com/564x/c7/3a/bd/c73abd9401a025ecc067cbda14baee6f.jpg",
-                      fit: BoxFit.cover,
-                      width: 90,
-                      height: 90,
-                    ),
-                  ),
-                ),
-                title: Row(
-                  children: [
-                    const SizedBox(
-                      width: 35,
-                    ),
-                    ElevatedButton(
-                        onPressed: () => null,
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white)),
-                        child: const Text(
-                          "Read article",
-                          style: TextStyle(color: Colors.black),
-                        )),
-                  ],
-                ),
                 trailing: IconButton(
                   icon: Icon(
                     Icons.save_alt_outlined,
@@ -65,34 +38,20 @@ class PostItem extends StatelessWidget {
               Text(
                 post.title,
                 maxLines: 3,
-                style: TextStyle(fontSize: 30, color: Colors.white),
+                style: const TextStyle(fontSize: 24, color: Colors.white),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 "created at: ${formatDate(post.createdAt)}",
-                style: TextStyle(fontSize: 15, color: textWord),
-              ),
-              InkWell(
-                child: Container(
-                  height: 150,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 3),
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
-                    // image: DecorationImage(
-                    //     image: NetworkImage(post.ImagePost),
-                    //     fit: BoxFit.cover)
-                  ),
-                ),
-                onTap: () => null,
+                style: TextStyle(fontSize: 16, color: textWord),
+                textAlign: TextAlign.left,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       icon: Icon(
