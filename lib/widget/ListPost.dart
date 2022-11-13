@@ -1,10 +1,16 @@
 import 'package:app/interface/Post.interface.dart';
 import 'package:app/widget/PostItem.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class ListPostWidget extends StatefulWidget {
-  const ListPostWidget({super.key, this.title = "", required this.listData});
+  const ListPostWidget(
+      {super.key,
+      this.title = "",
+      required this.listData,
+      required this.onPrev,
+      required this.onNext});
+  final Function onPrev;
+  final Function onNext;
   final String title;
   final List<IPost> listData;
 
@@ -18,7 +24,10 @@ class ListPostWidgetState extends State<ListPostWidget> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Text(widget.title, style: TextStyle(color: Colors.white)),
+        Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text(widget.title,
+                style: const TextStyle(color: Colors.white, fontSize: 20))),
         ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -29,8 +38,12 @@ class ListPostWidgetState extends State<ListPostWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-                onPressed: null,
+                onPressed: (() {
+                  widget.onPrev();
+                }),
                 style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => Theme.of(context).backgroundColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -40,8 +53,12 @@ class ListPostWidgetState extends State<ListPostWidget> {
                   style: Theme.of(context).textTheme.bodyText1,
                 )),
             ElevatedButton(
-                onPressed: null,
+                onPressed: (() {
+                  widget.onNext();
+                }),
                 style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => Theme.of(context).backgroundColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),

@@ -12,11 +12,30 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late Future<List<IPost>> posts;
+  int skip = 10;
+  QuerySearch q = QuerySearch(sortBy: 'view');
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    posts = PostApi().getList(QuerySearch());
+    posts = PostApi().getList(q);
+  }
+
+  onPrev() {
+    if (skip == 0) return;
+    skip -= 10;
+    q.skip = skip.toString();
+    setState(() {
+      posts = PostApi().getList(q);
+    });
+  }
+
+  onNext() {
+    skip += 10;
+    q.skip = skip.toString();
+    setState(() {
+      posts = PostApi().getList(q);
+    });
   }
 
   @override
@@ -25,9 +44,15 @@ class _HomeState extends State<Home> {
         future: posts,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListPostWidget(listData: snapshot.data ?? [], title: "Home");
+            return ListPostWidget(
+                listData: snapshot.data ?? [],
+                title: "Popular",
+                onPrev: onPrev,
+                onNext: onNext);
           }
-          return const Text("loading ...", style: TextStyle(color: Colors.white));
+          return const Center(
+            child: Text("loading ...", style: TextStyle(color: Colors.white)),
+          );
         });
   }
 }

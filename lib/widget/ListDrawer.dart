@@ -21,8 +21,9 @@ class ListDrawerSate extends State<ListDrawer> {
   late Future<String> userName;
   late Future<String> token;
   List<Nav> navigators = [
-    Nav(text: "Post saved", icon: Icons.mark_as_unread),
-    Nav(text: "Post posted", icon: Icons.file_upload)
+    Nav(text: "Post saved", icon: Icons.bookmark),
+    Nav(text: "Post posted", icon: Icons.check_circle),
+    Nav(text: "Create post", icon: Icons.upload)
   ];
 
   get builder => null;
