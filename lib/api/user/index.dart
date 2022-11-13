@@ -15,4 +15,15 @@ class UserApi {
         },
         body: data);
   }
+  Future<http.Response> login(String userName, String password) {
+    final data = jsonEncode(<String, String>{
+      'userName': userName.toString(),
+      'password': password.toString()
+    });
+    return http.post(Uri.https(rootUrl, "user/login"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: data);
+  }
 }

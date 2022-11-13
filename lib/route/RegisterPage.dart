@@ -1,4 +1,6 @@
-import 'package:app/api/User/index.dart';
+import 'dart:convert';
+
+import 'package:app/api/user/index.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -59,9 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
             .showSnackBar(const SnackBar(content: Text("Success!!!")));
         Navigator.pop(context());
       } else {
+        String message = jsonDecode(res.body)['message'];
         ScaffoldMessenger.of(context())
-            .showSnackBar(const SnackBar(content: Text("Error to register")));
-        const RegisterPage();
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     }
   }

@@ -11,9 +11,10 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'To-do list app',
-      theme: ThemeData(backgroundColor: const Color.fromRGBO(0, 0, 0, 0.9), textTheme: const TextTheme(
-        bodyText1: TextStyle(color: Color.fromRGBO(168, 179, 207, 1))
-      )),
+      theme: ThemeData(
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 0.9),
+          textTheme: const TextTheme(
+              bodyText1: TextStyle(color: Color.fromRGBO(168, 179, 207, 1)))),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const IndexPage(),
@@ -28,7 +29,9 @@ class ControllView extends StatelessWidget {
   ControllView({super.key});
   Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
   int currIndex = 0;
-
+  onNavAction(String data) {
+    print(data);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +47,7 @@ class ControllView extends StatelessWidget {
       ),
       drawer: Drawer(
         backgroundColor: Theme.of(context).backgroundColor,
-        child: ListDrawer(),
+        child: ListDrawer(onNavAction: onNavAction),
       ),
       body: IndexedStack(
         index: currIndex,
@@ -52,5 +55,4 @@ class ControllView extends StatelessWidget {
       ),
     );
   }
-
 }

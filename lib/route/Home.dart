@@ -26,11 +26,6 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListPostWidget(listData: snapshot.data ?? [], title: "Home");
-            // return ListView.builder(
-            //     itemCount: snapshot.data!.length,
-            //     itemBuilder: (context, index) {
-            //       return PostItem(post: snapshot.data![index]);
-            //     });
           }
           return const Text("loading ...", style: TextStyle(color: Colors.white));
         });
