@@ -1,61 +1,71 @@
-import 'dart:convert';
-
 import 'package:app/api/User/index.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../interface/User.interface.dart';
 
-class RegisterPage extends StatefulWidget{
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-   TextEditingController username_controller=TextEditingController();
-   TextEditingController password_controller=TextEditingController();
-   TextEditingController re_password_controller=TextEditingController();
-   String errorTextUsername='';
-   String errorTextPassword='';
-   String errorTextRe_password='';
-   bool loading=false;
-   void checkUsername( String s){
-     if(s.isEmpty)  errorTextUsername="Invalid or empty username.";
-     else{
-       if(s.length<6||s.length>15) errorTextUsername="Username should be between 6-15 characters.";
-       else{
-         errorTextUsername='';
-       }
-     }
-   }
-   void checkPassword( String s){
-     if(s.isEmpty)  errorTextPassword="Password cannot be empty.";
-     else{
-       if(s.length<8||s.length>16) errorTextPassword="Your password must be between 8-16 characters";
-       else{
-         errorTextPassword='';
-       }
-     }
-   }
-   void RegisterUser() async{
-     if(errorTextUsername=='' && errorTextPassword==''&&errorTextRe_password==''){
-       setState(() {
-         loading = true;
-       });
-       Response res = await UserApi().register(username_controller.text, password_controller.text);
-       setState(() {
-         loading = false;
-       });
-       if(res.statusCode==200){
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success!!!")));
-         Navigator.pop(context);
-       }
-       else {
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error to register")));
-         RegisterPage();
-       }
-     }
-   }
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController rePasswordController = TextEditingController();
+  String errorTextUsername = '';
+  String errorTextPassword = '';
+  String errorTextRePassword = '';
+  bool loading = false;
+  void checkUsername(String s) {
+    if (s.isEmpty) {
+      errorTextUsername = "Invalid or empty username.";
+    } else {
+      if (s.length < 6 || s.length > 15) {
+        errorTextUsername = "Username should be between 6-15 characters.";
+      } else {
+        errorTextUsername = '';
+      }
+    }
+  }
+
+  void checkPassword(String s) {
+    if (s.isEmpty) {
+      errorTextPassword = "Password cannot be empty.";
+    } else {
+      if (s.length < 8 || s.length > 16) {
+        errorTextPassword = "Your password must be between 8-16 characters";
+      } else {
+        errorTextPassword = '';
+      }
+    }
+  }
+
+  void registerUser() async {
+    if (errorTextUsername == '' &&
+        errorTextPassword == '' &&
+        errorTextRePassword == '') {
+      setState(() {
+        loading = true;
+      });
+      Response res = await UserApi()
+          .register(usernameController.text, passwordController.text);
+      setState(() {
+        loading = false;
+      });
+      if (res.statusCode == 200) {
+        ScaffoldMessenger.of(context())
+            .showSnackBar(const SnackBar(content: Text("Success!!!")));
+        Navigator.pop(context());
+      } else {
+        ScaffoldMessenger.of(context())
+            .showSnackBar(const SnackBar(content: Text("Error to register")));
+        RegisterPage();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Registration",
+              const Text(
+                "Registration",
                 maxLines: 1,
                 style: TextStyle(
                   color: Colors.lightBlue,
@@ -76,86 +87,81 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-
               TextFormField(
-                controller: username_controller,
-                onChanged: (value){
+                controller: usernameController,
+                onChanged: (value) {
                   setState(() {
                     checkUsername(value);
                   });
                 },
-                decoration:  InputDecoration(
-                  hintText:  "Username",
-                  contentPadding: EdgeInsets.all(10),
-                  border: OutlineInputBorder(
-
-                  ),
-                    errorText: errorTextUsername.isEmpty ? null :errorTextUsername,
+                decoration: InputDecoration(
+                  hintText: "Username",
+                  contentPadding: const EdgeInsets.all(10),
+                  border: const OutlineInputBorder(),
+                  errorText:
+                      errorTextUsername.isEmpty ? null : errorTextUsername,
                 ),
-
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               TextFormField(
-                controller: password_controller,
+                controller: passwordController,
                 obscureText: true,
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     checkPassword(value);
                   });
                 },
-                decoration:  InputDecoration(
-                    hintText:  "Password",
-                    contentPadding: EdgeInsets.all(10),
-                    border: OutlineInputBorder(
-                    ),
-                  errorText: errorTextPassword.isEmpty ? null :errorTextPassword,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  contentPadding: const EdgeInsets.all(10),
+                  border: const OutlineInputBorder(),
+                  errorText:
+                      errorTextPassword.isEmpty ? null : errorTextPassword,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               TextFormField(
-                controller: re_password_controller,
-                obscureText:true,
-                onChanged: (value){
+                controller: rePasswordController,
+                obscureText: true,
+                onChanged: (value) {
                   setState(() {
-                   if(value!=password_controller.text) errorTextRe_password="Passwords do not match.";
-                   else errorTextRe_password='';
+                    if (value != passwordController.text) {
+                      errorTextRePassword = "Passwords do not match.";
+                    } else {
+                      errorTextRePassword = '';
+                    }
                   });
                 },
-                decoration:  InputDecoration(
-                    hintText:  "Re-Enter Password",
-                    contentPadding: EdgeInsets.all(10),
-                    border: OutlineInputBorder(
-                    ),
-                  errorText: errorTextRe_password.isEmpty ? null :errorTextRe_password,
-
-
+                decoration: InputDecoration(
+                  hintText: "Re-Enter Password",
+                  contentPadding: const EdgeInsets.all(10),
+                  border: const OutlineInputBorder(),
+                  errorText:
+                      errorTextRePassword.isEmpty ? null : errorTextRePassword,
                 ),
-
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               SizedBox(
                 height: 50,
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: loading? null: RegisterUser,
-                  child:Text("Register Now"),
+                  onPressed: loading ? null : registerUser,
+                  child: const Text("Register Now"),
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
   }
-
 }
