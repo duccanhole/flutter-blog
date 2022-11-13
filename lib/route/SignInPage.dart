@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/route/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -142,6 +143,6 @@ class _SignInPageState extends State<SignInPage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RegisterPage()));
   }
   void HomePagetonextScreen(BuildContext context){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Home()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ControllView()));
   }
 }

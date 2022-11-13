@@ -61,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
       } else {
         ScaffoldMessenger.of(context())
             .showSnackBar(const SnackBar(content: Text("Error to register")));
-        RegisterPage();
+        const RegisterPage();
       }
     }
   }
@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
