@@ -45,7 +45,7 @@ class ListDrawerSate extends State<ListDrawer> {
     if (lastName.isEmpty) {
       return "G";
     }
-    return lastName[0];
+    return lastName[0].toUpperCase();
   }
 
   @override

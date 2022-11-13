@@ -15,7 +15,14 @@ class HomeWidget extends StatelessWidget {
       theme: ThemeData(
           backgroundColor: const Color.fromRGBO(0, 0, 0, 0.9),
           textTheme: const TextTheme(
-              bodyText1: TextStyle(color: Color.fromRGBO(168, 179, 207, 1)))),
+              headline1: TextStyle(
+                  color: Color.fromRGBO(168, 179, 207, 1),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+              subtitle1: TextStyle(
+                  color: Color.fromRGBO(168, 179, 207, 1), fontSize: 14),
+              bodyText1: TextStyle(
+                  color: Color.fromRGBO(168, 179, 207, 1), fontSize: 16))),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const IndexPage(),
