@@ -12,6 +12,14 @@ class PostEditPage extends StatefulWidget {
 
 class PostEditPageState extends State<PostEditPage> {
   final formKey = GlobalKey<FormState>();
+  List<String> tagsList = const [
+    'News',
+    'Health - Beauty',
+    'Education',
+    'Sience - Technology',
+    'Entertaiment',
+    'Other'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +44,51 @@ class PostEditPageState extends State<PostEditPage> {
                           ),
                           border: OutlineInputBorder(),
                         ),
+                      ),
+                      const SizedBox(height: 15),
+                      TextFormField(
+                        style: const TextStyle(color: Colors.blueGrey),
+                        decoration: const InputDecoration(
+                          labelText: "Subtitle",
+                          labelStyle: TextStyle(color: Colors.blueGrey),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blueGrey),
+                          ),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      TextFormField(
+                        style: const TextStyle(color: Colors.blueGrey),
+                        decoration: const InputDecoration(
+                          labelText: "Link",
+                          labelStyle: TextStyle(color: Colors.blueGrey),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blueGrey),
+                          ),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      DropdownButtonFormField(
+                          style: const TextStyle(color: Colors.black),
+                          decoration: const InputDecoration(
+                              labelText: "Tags",
+                              labelStyle: TextStyle(color: Colors.blueGrey),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                              border: OutlineInputBorder()),
+                          isExpanded: true,
+                          items: tagsList
+                              .map<DropdownMenuItem<String>>((e) =>
+                                  DropdownMenuItem(value: e, child: Text(e)))
+                              .toList(),
+                          onChanged: ((value) {})),
+                      Row(
+                        children: [
+                          
+                        ],
                       )
                     ],
                   )),
