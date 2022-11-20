@@ -1,4 +1,5 @@
 import 'package:app/route/Home.dart';
+import 'package:app/route/PostEdit.dart';
 import 'package:app/route/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,8 +61,23 @@ class ControllViewState extends State<ControllView> {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? "";
     if (token == "") {
-      ScaffoldMessenger.of(context())
-          .showSnackBar(const SnackBar(content: Text("Please login !!!")));
+      return showDialog(
+          context: context(),
+          barrierDismissible: true,
+          builder: ((context) => AlertDialog(
+                title: const Text("Alert"),
+                content: const Text("Please login to continue."),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"))
+                ],
+              )));
+    } else {
+      Navigator.of(context())
+          .push(MaterialPageRoute(builder: (context) => const PostEditPage()));
     }
   }
 
