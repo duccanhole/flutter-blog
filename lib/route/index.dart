@@ -85,6 +85,7 @@ class ControllViewState extends State<ControllView> {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("token", "");
     prefs.setString("userName", "guest");
+    prefs.setString("userId", "");
     Navigator.of(context())
         .push(MaterialPageRoute(builder: (context) => const SignInPage()));
   }

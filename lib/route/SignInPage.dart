@@ -42,6 +42,8 @@ class _SignInPageState extends State<SignInPage> {
       await prefs.setString("token", json.decode(res.body)['results']['token']);
       await prefs.setString(
           "userName", json.decode(res.body)['results']['userName']);
+      await prefs.setString(
+          "userId", json.decode(res.body)['results']['userId']);
       homePagetonextScreen(context());
     } else {
       String message = jsonDecode(res.body)['message'];
