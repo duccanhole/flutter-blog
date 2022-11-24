@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:app/api/index.dart';
 import 'package:app/interface/Post.interface.dart';
+import 'package:app/interface/PostDetail.interface.dart';
+import 'package:app/interface/User.interface.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,19 @@ class PostApi {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load from server');
+    }
+  }
+
+  Future<IPostDetail> getPostDetail(String id) async {
+    final uri = Uri.http(rootUrl, "post/$id");
+    final res = await http.get(uri);
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      final resData = json.decode(res.body)["results"];
+      return IPostDetail(
+          post: IPost.fromJson(resData),
+          user: IUser.fromJson(resData["createdBy"]));
+    } else {
+      throw Exception("Error to fetch.");
     }
   }
 
