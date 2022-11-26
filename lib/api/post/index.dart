@@ -69,4 +69,23 @@ class PostApi {
     }
     return null;
   }
+
+  Future<http.Response?> updatePost(String id, Map data) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString("userId");
+    String? token = prefs.getString("token");
+    if (userId!.isNotEmpty && token!.isNotEmpty) {
+      try {
+        return http.put(Uri.http(rootUrl, "post/$id"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'token': token
+            },
+            body: json.encode(data));
+      } catch (e) {
+        throw Exception(e);
+      }
+    }
+    return null;
+  }
 }

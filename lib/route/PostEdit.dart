@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:app/api/post/index.dart';
 import 'package:app/interface/Post.interface.dart';
+import 'package:app/layout/LayoutWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -86,98 +87,91 @@ class PostEditPageState extends State<PostEditPage> {
       }
     }
 
-    return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Center(
-              child: Column(
-            children: [
-              Text(widget.isEdit ? 'Edit post' : 'Create Post',
-                  style: const TextStyle(color: Colors.blueGrey, fontSize: 24)),
-              const SizedBox(height: 15),
-              Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: postTitle,
-                        style: const TextStyle(color: Colors.blueGrey),
-                        decoration: inputStyle('Title*'),
-                        validator: (value) {
-                          if (!checkRequire(value!)) return 'Required';
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        controller: postSubtitle,
-                        style: const TextStyle(color: Colors.blueGrey),
-                        decoration: inputStyle('Subtitle'),
-                      ),
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        controller: postUrl,
-                        style: const TextStyle(color: Colors.blueGrey),
-                        decoration: inputStyle('Link*'),
-                        validator: (value) {
-                          if (!checkRequire(value!)) return 'Required';
-                          if (!checkUrl(value)) return 'Link is invalid';
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      DropdownButtonFormField(
-                          value: postTags,
-                          style: const TextStyle(color: Colors.blueGrey),
-                          decoration: inputStyle('Tags*'),
-                          isExpanded: true,
-                          items: tagsList
-                              .map<DropdownMenuItem<String>>((e) =>
-                                  DropdownMenuItem(value: e, child: Text(e)))
-                              .toList(),
-                          onChanged: (String? value) {
-                            postTags = value!.toString();
-                          }),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+    return LayoutWidget(
+        child: Center(
+            child: Column(
+      children: [
+        Text(widget.isEdit ? 'Edit post' : 'Create Post',
+            style: const TextStyle(color: Colors.blueGrey, fontSize: 24)),
+        const SizedBox(height: 15),
+        Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: postTitle,
+                  style: const TextStyle(color: Colors.blueGrey),
+                  decoration: inputStyle('Title*'),
+                  validator: (value) {
+                    if (!checkRequire(value!)) return 'Required';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: postSubtitle,
+                  style: const TextStyle(color: Colors.blueGrey),
+                  decoration: inputStyle('Subtitle'),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: postUrl,
+                  style: const TextStyle(color: Colors.blueGrey),
+                  decoration: inputStyle('Link*'),
+                  validator: (value) {
+                    if (!checkRequire(value!)) return 'Required';
+                    if (!checkUrl(value)) return 'Link is invalid';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                DropdownButtonFormField(
+                    value: postTags,
+                    style: const TextStyle(color: Colors.blueGrey),
+                    decoration: inputStyle('Tags*'),
+                    isExpanded: true,
+                    items: tagsList
+                        .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (String? value) {
+                      postTags = value!.toString();
+                    }),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.grey)),
+                        onPressed: goBack,
+                        child: const Text('Cancel')),
+                    Row(
+                      children: [
+                        if (widget.isEdit)
                           ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateColor.resolveWith(
-                                          (states) => Colors.grey)),
-                              onPressed: goBack,
-                              child: const Text('Cancel')),
-                          Row(
-                            children: [
-                              if (widget.isEdit)
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) => Colors.red)),
-                                    onPressed: () {},
-                                    child: const Text('Delete')),
-                              ElevatedButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => widget.isEdit
-                                                  ? Colors.blue
-                                                  : Colors.green)),
-                                  onPressed: loading ? null : onSave,
-                                  child:
-                                      Text(widget.isEdit ? 'Save' : 'Create'))
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  )),
-            ],
-          )),
-        ));
+                                          (states) => Colors.red)),
+                              onPressed: () {},
+                              child: const Text('Delete')),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) => widget.isEdit
+                                        ? Colors.blue
+                                        : Colors.green)),
+                            onPressed: loading ? null : onSave,
+                            child: Text(widget.isEdit ? 'Save' : 'Create'))
+                      ],
+                    )
+                  ],
+                )
+              ],
+            )),
+      ],
+    )));
   }
 }
