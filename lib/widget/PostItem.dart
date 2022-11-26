@@ -1,18 +1,22 @@
-import 'dart:ffi';
-
 import 'package:app/interface/Post.interface.dart';
+import 'package:app/route/PostDetail.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
-  const PostItem({super.key, required this.post});
+  const PostItem({super.key, required this.post, this.isSaved = false});
   final IPost post;
+  final bool isSaved;
 
   final Color textWord = const Color.fromRGBO(168, 179, 207, 1);
   final Color backGround = const Color.fromRGBO(0, 0, 0, 0.9);
   final Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
 
-  String formatDate(DateTime date) {
-    return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
+  // String formatDate(DateTime date) {
+  //   return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
+  // }
+  viewDetail(BuildContext context) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PostDetailPage(post: post)));
   }
 
   @override
@@ -54,18 +58,33 @@ class PostItem extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: null,
-                          icon: Icon(Icons.save_alt_outlined, color: textWord))
+                          icon: Icon(
+                              isSaved ? Icons.close : Icons.save_alt_outlined,
+                              color: textWord)),
+                      Text(
+                        isSaved ? 'Unsave' : 'Save',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      )
                     ],
                   ),
-                  ElevatedButton(
-                      onPressed: null,
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      side: BorderSide(color: textWord)))),
-                      child: Text('Read',
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       viewDetail(context);
+                  //     },
+                  //     style: ButtonStyle(
+                  //         backgroundColor: Colors.black12,
+                  //         shape:
+                  //             MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //                 RoundedRectangleBorder(
+                  //                     borderRadius: BorderRadius.circular(5),
+                  //                     side: BorderSide(color: textWord)))),
+                  //     child: Text('Read',
+                  //         style: Theme.of(context).textTheme.subtitle1))
+                  TextButton(
+                      onPressed: () {
+                        viewDetail(context);
+                      },
+                      child: Text("Read",
                           style: Theme.of(context).textTheme.subtitle1))
                 ],
               )

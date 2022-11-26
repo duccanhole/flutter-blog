@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:app/api/index.dart';
 import 'package:app/interface/Post.interface.dart';
+import 'package:app/interface/PostDetail.interface.dart';
+import 'package:app/interface/User.interface.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +31,19 @@ class PostApi {
     }
   }
 
+  Future<IPostDetail> getPostDetail(String id) async {
+    final uri = Uri.http(rootUrl, "post/$id");
+    final res = await http.get(uri);
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      final resData = json.decode(res.body)["results"];
+      return IPostDetail(
+          post: IPost.fromJson(resData),
+          user: IUser.fromJson(resData["createdBy"]));
+    } else {
+      throw Exception("Error to fetch.");
+    }
+  }
+
   Future<http.Response?> createPost(
       String title, String subtitle, String tags, String link) async {
     final prefs = await SharedPreferences.getInstance();
@@ -48,6 +63,25 @@ class PostApi {
               'tags': tags,
               'userId': userId
             }));
+      } catch (e) {
+        throw Exception(e);
+      }
+    }
+    return null;
+  }
+
+  Future<http.Response?> updatePost(String id, Map data) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString("userId");
+    String? token = prefs.getString("token");
+    if (userId!.isNotEmpty && token!.isNotEmpty) {
+      try {
+        return http.put(Uri.http(rootUrl, "post/$id"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'token': token
+            },
+            body: json.encode(data));
       } catch (e) {
         throw Exception(e);
       }

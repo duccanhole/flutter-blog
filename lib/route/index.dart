@@ -3,7 +3,6 @@ import 'package:app/route/PostEdit.dart';
 import 'package:app/route/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../widget/ListDrawer.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -53,7 +52,35 @@ class ControllViewState extends State<ControllView> {
       case 'Create post':
         createPost();
         break;
+      case 'Post posted':
+        getPostPosted();
+        break;
       default:
+    }
+  }
+
+  showDialogMessage(String message) {
+    return showDialog(
+        context: context(),
+        barrierDismissible: true,
+        builder: ((context) => AlertDialog(
+              title: const Text("Alert"),
+              content: Text(message),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"))
+              ],
+            )));
+  }
+
+  getPostPosted() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? "";
+    if (token == "") {
+      return showDialogMessage("Please login to continue.");
     }
   }
 
@@ -61,20 +88,7 @@ class ControllViewState extends State<ControllView> {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? "";
     if (token == "") {
-      return showDialog(
-          context: context(),
-          barrierDismissible: true,
-          builder: ((context) => AlertDialog(
-                title: const Text("Alert"),
-                content: const Text("Please login to continue."),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("OK"))
-                ],
-              )));
+      return showDialogMessage("Please login to continue.");
     } else {
       Navigator.of(context())
           .push(MaterialPageRoute(builder: (context) => const PostEditPage()));
