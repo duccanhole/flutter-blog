@@ -16,13 +16,13 @@ class HomeWidget extends StatelessWidget {
           backgroundColor: const Color.fromRGBO(0, 0, 0, 0.9),
           textTheme: const TextTheme(
               headline1: TextStyle(
-                  color: Color.fromRGBO(168, 179, 207, 1),
+                  color: Colors.blueGrey,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
               subtitle1: TextStyle(
-                  color: Color.fromRGBO(168, 179, 207, 1), fontSize: 14),
+                  color: Colors.blueGrey, fontSize: 14),
               bodyText1: TextStyle(
-                  color: Color.fromRGBO(168, 179, 207, 1), fontSize: 16))),
+                  color: Colors.blueGrey, fontSize: 16))),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const IndexPage(),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/layout/LayoutWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -20,12 +21,13 @@ class WebviewWidgetState extends State<WebviewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WebView(
+    return LayoutWidget(
+        child: WebView(
       initialUrl: widget.url,
       javascriptMode: JavascriptMode.unrestricted,
       onProgress: (progress) {
         print("loading: $progress");
       },
-    );
+    ));
   }
 }

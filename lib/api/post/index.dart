@@ -11,13 +11,23 @@ class QuerySearch {
   String skip;
   String limit;
   String sortBy;
-  QuerySearch({this.limit = '10', this.skip = '0', this.sortBy = ""});
+  String filterBy;
+  QuerySearch(
+      {this.limit = '10',
+      this.skip = '0',
+      this.sortBy = "view",
+      this.filterBy = ""});
 }
 
 class PostApi {
   Future<List<IPost>> getList(QuerySearch q) async {
-    final query = {"skip": q.skip, "limit": q.limit, "sortBy": q.sortBy};
-    final uri = Uri.http(rootUrl, "post", query);
+    final query = {
+      "skip": q.skip,
+      "limit": q.limit,
+      "sortBy": q.sortBy,
+      "filterBy": q.filterBy
+    };
+    final uri = Uri.https(rootUrl, "post", query);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -76,12 +86,13 @@ class PostApi {
     String? token = prefs.getString("token");
     if (userId!.isNotEmpty && token!.isNotEmpty) {
       try {
-        return http.put(Uri.http(rootUrl, "post/$id"),
+        final res = await http.put(Uri.https(rootUrl, "post/$id"),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
               'token': token
             },
             body: json.encode(data));
+        return res;
       } catch (e) {
         throw Exception(e);
       }

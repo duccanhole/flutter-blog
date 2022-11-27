@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app/widget/webview.dart';
+import 'package:app/widget/WebviewWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

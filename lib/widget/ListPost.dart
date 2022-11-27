@@ -8,9 +8,11 @@ class ListPostWidget extends StatefulWidget {
       this.title = "",
       required this.listData,
       required this.onPrev,
-      required this.onNext});
+      required this.onNext,
+      required this.onFilter});
   final Function onPrev;
   final Function onNext;
+  final Function onFilter;
   final String title;
   final List<IPost> listData;
 
@@ -20,14 +22,42 @@ class ListPostWidget extends StatefulWidget {
 
 class ListPostWidgetState extends State<ListPostWidget> {
   Color btnColor = const Color.fromRGBO(168, 179, 207, 1);
+  List<String> tagsList = const [
+    'All',
+    'News',
+    'Health - Beauty',
+    'Education',
+    'Sience - Technology',
+    'Entertaiment',
+    'Other'
+  ];
+  String tagsValue = "All";
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(widget.title,
-                style: const TextStyle(color: Colors.white, fontSize: 20))),
+        Text(widget.title, style: Theme.of(context).textTheme.headline1),
+        SizedBox(
+          width: 150,
+          child: DropdownButtonFormField(
+              value: tagsValue,
+              style: const TextStyle(color: Colors.blueGrey),
+              decoration: const InputDecoration(
+                labelText: "Tags",
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color.fromRGBO(28, 31, 38, 1)),
+                ),
+                border: OutlineInputBorder(),
+              ),
+              items: tagsList
+                  .map<DropdownMenuItem<String>>(
+                      (e) => DropdownMenuItem(value: e, child: Text(e)))
+                  .toList(),
+              onChanged: (String? value) {
+                widget.onFilter(value);
+              }),
+        ),
         ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

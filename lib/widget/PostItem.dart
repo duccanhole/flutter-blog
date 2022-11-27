@@ -3,9 +3,10 @@ import 'package:app/route/PostDetail.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
-  const PostItem({super.key, required this.post, this.isSaved = false});
+  const PostItem({super.key, required this.post, this.isSaved = false, this.canEdit = false});
   final IPost post;
   final bool isSaved;
+  final bool canEdit;
 
   final Color textWord = const Color.fromRGBO(168, 179, 207, 1);
   final Color backGround = const Color.fromRGBO(0, 0, 0, 0.9);

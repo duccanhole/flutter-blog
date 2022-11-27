@@ -60,7 +60,49 @@ class PostDetailPageState extends State<PostDetailPage> {
                   title: Text(postDetailData.user.userName,
                       style: Theme.of(context).textTheme.headline1),
                   subtitle: Text(formatDate(postDetailData.post.createdAt),
-                      style: Theme.of(context).textTheme.subtitle1))
+                      style: Theme.of(context).textTheme.subtitle1),
+                  trailing: TextButton(
+                      onPressed: (() {}),
+                      child: const Icon(Icons.edit, color: Colors.blueGrey))),
+              Text(postDetailData.post.title,
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.headline1!.color,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 25,
+              ),
+              if (postDetailData.post.subtile.isNotEmpty)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    postDetailData.post.subtile,
+                    style:
+                        const TextStyle(color: Colors.blueGrey, fontSize: 20),
+                  ),
+                ),
+              const SizedBox(
+                height: 15,
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("tags: #${postDetailData.post.tags}",
+                      style: const TextStyle(
+                          color: Colors.blueGrey,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 12))),
+              const SizedBox(
+                height: 15,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: TextButton(
+                    onPressed: (() {}),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [Icon(Icons.link), Text("Go to link")],
+                    )),
+              )
             ],
           );
         }
