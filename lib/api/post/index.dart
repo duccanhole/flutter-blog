@@ -41,6 +41,25 @@ class PostApi {
     }
   }
 
+  Future<List<IPost>> getListSaved(QuerySearch q, String userId) async {
+    final Map<String, dynamic> query = {
+      "skip": q.skip,
+      "limit": q.limit,
+      "filterBy": q.filterBy
+    };
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? "";
+    if (token.isEmpty) return [];
+    final uri = Uri.https(rootUrl, "post-saved/$userId", query);
+    final res = await http.get(uri, headers: {"token": token});
+    if (res.statusCode == 200) {
+      List resData = json.decode(res.body)['results'];
+      return resData.map((e) => IPost.fromJson(e['postId'])).toList();
+    } else {
+      throw Exception("Failed to load.");
+    }
+  }
+
   Future<IPostDetail> getPostDetail(String id) async {
     final uri = Uri.http(rootUrl, "post/$id");
     final res = await http.get(uri);
@@ -93,6 +112,39 @@ class PostApi {
             },
             body: json.encode(data));
         return res;
+      } catch (e) {
+        throw Exception(e);
+      }
+    }
+    return null;
+  }
+
+  Future<http.Response?> savePost(Map data) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    if (token!.isNotEmpty) {
+      try {
+        final res = await http.post(Uri.https(rootUrl, "post-saved"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'token': token
+            },
+            body: json.encode(data));
+        return res;
+      } catch (e) {
+        throw Exception(e);
+      }
+    }
+    return null;
+  }
+
+  Future<http.Response?> unsavePost(String userId, String postId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    if (token!.isNotEmpty) {
+      try {
+        return await http
+            .delete(Uri.https(rootUrl, "post-saved/$userId/unsave/$postId"));
       } catch (e) {
         throw Exception(e);
       }

@@ -9,12 +9,13 @@ class ListPostWidget extends StatefulWidget {
       required this.listData,
       required this.onPrev,
       required this.onNext,
-      required this.onFilter});
-  final Function onPrev;
-  final Function onNext;
-  final Function onFilter;
+      required this.onFilter,
+      this.isSaved = false,
+      this.canEdit = false});
+  final Function onPrev, onNext, onFilter;
   final String title;
   final List<IPost> listData;
+  final bool isSaved, canEdit;
 
   @override
   State<ListPostWidget> createState() => ListPostWidgetState();
@@ -36,34 +37,30 @@ class ListPostWidgetState extends State<ListPostWidget> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Text(widget.title, style: Theme.of(context).textTheme.headline1),
-        SizedBox(
-          width: 150,
-          child: DropdownButtonFormField(
-              value: tagsValue,
-              style: const TextStyle(color: Colors.blueGrey),
-              decoration: const InputDecoration(
-                labelText: "Tags",
-                labelStyle: TextStyle(color: Colors.blueGrey),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color.fromRGBO(28, 31, 38, 1)),
-                ),
-                border: OutlineInputBorder(),
-              ),
-              items: tagsList
-                  .map<DropdownMenuItem<String>>(
-                      (e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              onChanged: (String? value) {
-                widget.onFilter(value);
-              }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.title, style: Theme.of(context).textTheme.headline1),
+            DropdownButton(
+                value: tagsValue,
+                items: tagsList
+                    .map<DropdownMenuItem<String>>(
+                        (e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (String? value) {
+                  tagsValue = value ?? "All";
+                  widget.onFilter(value);
+                }),
+          ],
         ),
         ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: widget.listData.length,
-            itemBuilder: (context, index) =>
-                PostItem(post: widget.listData[index])),
+            itemBuilder: (context, index) => PostItem(
+                post: widget.listData[index],
+                isSaved: widget.isSaved,
+                canEdit: widget.canEdit)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

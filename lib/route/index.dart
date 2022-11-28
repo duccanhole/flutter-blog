@@ -1,5 +1,6 @@
 import 'package:app/route/Home.dart';
 import 'package:app/route/PostEdit.dart';
+import 'package:app/route/PostSaved.dart';
 import 'package:app/route/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,10 +20,8 @@ class HomeWidget extends StatelessWidget {
                   color: Colors.blueGrey,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
-              subtitle1: TextStyle(
-                  color: Colors.blueGrey, fontSize: 14),
-              bodyText1: TextStyle(
-                  color: Colors.blueGrey, fontSize: 16))),
+              subtitle1: TextStyle(color: Colors.blueGrey, fontSize: 14),
+              bodyText1: TextStyle(color: Colors.blueGrey, fontSize: 16))),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const IndexPage(),
@@ -42,6 +41,7 @@ class ControllView extends StatefulWidget {
 
 class ControllViewState extends State<ControllView> {
   Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
+  String userId = "";
   int currIndex = 0;
   onNavAction(String data) async {
     switch (data) {
@@ -55,6 +55,12 @@ class ControllViewState extends State<ControllView> {
       case 'Post posted':
         getPostPosted();
         break;
+      case 'Post saved':
+        getPostSaved();
+        return;
+      case 'Change password':
+        changePassword();
+        return;
       default:
     }
   }
@@ -83,6 +89,22 @@ class ControllViewState extends State<ControllView> {
       return showDialogMessage("Please login to continue.");
     }
   }
+
+  getPostSaved() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? "";
+    String userIdPrefs = prefs.getString("userId") ?? "";
+    if (token.isEmpty || userIdPrefs.isEmpty) {
+      return showDialogMessage("Please login to continue.");
+    } else {
+      setState(() {
+        userId = userIdPrefs;
+        currIndex = 1;
+      });
+    }
+  }
+
+  changePassword() {}
 
   createPost() async {
     final prefs = await SharedPreferences.getInstance();
@@ -123,7 +145,7 @@ class ControllViewState extends State<ControllView> {
       ),
       body: IndexedStack(
         index: currIndex,
-        children: const [Home()],
+        children: const [Home(), PostSavedPage()],
       ),
     );
   }

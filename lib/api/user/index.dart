@@ -20,7 +20,7 @@ class UserApi {
       'userName': userName.toString(),
       'password': password.toString()
     });
-    return http.post(Uri.http(rootUrl, "user/login"),
+    return http.post(Uri.https(rootUrl, "user/login"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

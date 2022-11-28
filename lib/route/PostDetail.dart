@@ -2,16 +2,15 @@ import 'package:app/api/post/index.dart';
 import 'package:app/interface/Post.interface.dart';
 import 'package:app/interface/PostDetail.interface.dart';
 import 'package:app/layout/LayoutWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 class PostDetailPage extends StatefulWidget {
-  const PostDetailPage({super.key, required this.post});
+  const PostDetailPage({super.key, required this.post, this.canEdit = false});
   final IPost post;
+  final bool canEdit;
 
   @override
-  State<StatefulWidget> createState() => PostDetailPageState();
+  State<PostDetailPage> createState() => PostDetailPageState();
 }
 
 class PostDetailPageState extends State<PostDetailPage> {
@@ -61,9 +60,11 @@ class PostDetailPageState extends State<PostDetailPage> {
                       style: Theme.of(context).textTheme.headline1),
                   subtitle: Text(formatDate(postDetailData.post.createdAt),
                       style: Theme.of(context).textTheme.subtitle1),
-                  trailing: TextButton(
-                      onPressed: (() {}),
-                      child: const Icon(Icons.edit, color: Colors.blueGrey))),
+                  trailing: widget.canEdit
+                      ? TextButton(
+                          onPressed: (() {}),
+                          child: const Icon(Icons.edit, color: Colors.blueGrey))
+                      : null),
               Text(postDetailData.post.title,
                   style: TextStyle(
                       color: Theme.of(context).textTheme.headline1!.color,
