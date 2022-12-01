@@ -1,22 +1,68 @@
+import 'package:app/api/post/index.dart';
 import 'package:app/interface/Post.interface.dart';
 import 'package:app/route/PostDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostItem extends StatelessWidget {
-  const PostItem({super.key, required this.post, this.isSaved = false});
+  const PostItem(
+      {super.key,
+      required this.post,
+      this.isSaved = false,
+      this.canEdit = false});
   final IPost post;
   final bool isSaved;
+  final bool canEdit;
 
   final Color textWord = const Color.fromRGBO(168, 179, 207, 1);
   final Color backGround = const Color.fromRGBO(0, 0, 0, 0.9);
   final Color boderColor = const Color.fromRGBO(28, 31, 38, 1);
 
-  // String formatDate(DateTime date) {
-  //   return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
-  // }
   viewDetail(BuildContext context) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => PostDetailPage(post: post)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PostDetailPage(post: post, canEdit: canEdit)));
+  }
+
+  showDialogMessage(String message, BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: ((context) => AlertDialog(
+              title: const Text("Alert"),
+              content: Text(message),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"))
+              ],
+            )));
+  }
+
+  onSave(BuildContext context, String postId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    String? userId = prefs.getString("userId");
+    if (token!.isEmpty || userId!.isEmpty) {
+      return showDialogMessage("Please login.", context);
+    }
+    if (isSaved) {
+      Response? res = await PostApi().unsavePost(userId, postId);
+      if (res!.statusCode == 200 || res.statusCode == 201) {
+        showDialogMessage("Post is unsaved.", context);
+      }
+    } else {
+      Map data = {
+        "userId": userId,
+        "postId": postId,
+      };
+      Response? res = await PostApi().savePost(data);
+      if (res!.statusCode == 200 || res.statusCode == 201) {
+        showDialogMessage("Post is saved.", context);
+      }
+    }
   }
 
   @override
@@ -57,7 +103,9 @@ class PostItem extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       IconButton(
-                          onPressed: null,
+                          onPressed: () {
+                            onSave(context, post.id);
+                          },
                           icon: Icon(
                               isSaved ? Icons.close : Icons.save_alt_outlined,
                               color: textWord)),
@@ -67,19 +115,6 @@ class PostItem extends StatelessWidget {
                       )
                     ],
                   ),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       viewDetail(context);
-                  //     },
-                  //     style: ButtonStyle(
-                  //         backgroundColor: Colors.black12,
-                  //         shape:
-                  //             MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //                 RoundedRectangleBorder(
-                  //                     borderRadius: BorderRadius.circular(5),
-                  //                     side: BorderSide(color: textWord)))),
-                  //     child: Text('Read',
-                  //         style: Theme.of(context).textTheme.subtitle1))
                   TextButton(
                       onPressed: () {
                         viewDetail(context);

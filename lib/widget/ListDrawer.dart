@@ -21,12 +21,12 @@ class ListDrawerSate extends State<ListDrawer> {
   late Future<String> userName;
   late Future<String> token;
   List<Nav> navigators = [
+    Nav(text: "Home", icon: Icons.home),
     Nav(text: "Post saved", icon: Icons.bookmark),
     Nav(text: "Post posted", icon: Icons.check_circle),
     Nav(text: "Create post", icon: Icons.upload)
   ];
 
-  get builder => null;
   Future<String> getUserName() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("userName") ?? "guest";
@@ -65,6 +65,7 @@ class ListDrawerSate extends State<ListDrawer> {
           else
             {
               setState(() {
+                navigators.add(Nav(text: 'Change password', icon: Icons.key));
                 navigators.add(Nav(text: 'Sign out', icon: Icons.logout));
               })
             }

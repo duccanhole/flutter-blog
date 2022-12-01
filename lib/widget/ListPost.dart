@@ -8,11 +8,14 @@ class ListPostWidget extends StatefulWidget {
       this.title = "",
       required this.listData,
       required this.onPrev,
-      required this.onNext});
-  final Function onPrev;
-  final Function onNext;
+      required this.onNext,
+      required this.onFilter,
+      this.isSaved = false,
+      this.canEdit = false});
+  final Function onPrev, onNext, onFilter;
   final String title;
   final List<IPost> listData;
+  final bool isSaved, canEdit;
 
   @override
   State<ListPostWidget> createState() => ListPostWidgetState();
@@ -20,20 +23,44 @@ class ListPostWidget extends StatefulWidget {
 
 class ListPostWidgetState extends State<ListPostWidget> {
   Color btnColor = const Color.fromRGBO(168, 179, 207, 1);
+  List<String> tagsList = const [
+    'All',
+    'News',
+    'Health - Beauty',
+    'Education',
+    'Sience - Technology',
+    'Entertaiment',
+    'Other'
+  ];
+  String tagsValue = "All";
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(widget.title,
-                style: const TextStyle(color: Colors.white, fontSize: 20))),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.title, style: Theme.of(context).textTheme.headline1),
+            DropdownButton(
+                value: tagsValue,
+                items: tagsList
+                    .map<DropdownMenuItem<String>>(
+                        (e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (String? value) {
+                  tagsValue = value ?? "All";
+                  widget.onFilter(value);
+                }),
+          ],
+        ),
         ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: widget.listData.length,
-            itemBuilder: (context, index) =>
-                PostItem(post: widget.listData[index])),
+            itemBuilder: (context, index) => PostItem(
+                post: widget.listData[index],
+                isSaved: widget.isSaved,
+                canEdit: widget.canEdit)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

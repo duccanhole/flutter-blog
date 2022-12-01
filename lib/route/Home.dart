@@ -38,6 +38,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  onFilter(String tagsValue) {
+    if (tagsValue.isNotEmpty) {
+      q.filterBy = tagsValue == "All" ? "" : tagsValue;
+      setState(() {
+        posts = PostApi().getList(q);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<IPost>>(
@@ -48,7 +57,8 @@ class _HomeState extends State<Home> {
                 listData: snapshot.data ?? [],
                 title: "Popular",
                 onPrev: onPrev,
-                onNext: onNext);
+                onNext: onNext,
+                onFilter: onFilter);
           }
           return const Center(
             child: Text("loading ...", style: TextStyle(color: Colors.white)),
